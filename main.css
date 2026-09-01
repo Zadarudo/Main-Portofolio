@@ -273,9 +273,10 @@ body[data-zone="dark"] .side-nav .dot {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  opacity: 0;                              /* ← add this line */
   animation: fadeIn 2s ease-in-out forwards;
   animation-delay: 3s;
-}
+}z
 /* ============================================
      WORK — Klein blue field, image grid
      ============================================ */
