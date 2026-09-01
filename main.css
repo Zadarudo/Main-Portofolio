@@ -1,0 +1,569 @@
+/* ============================================
+     TOKENS
+     Palette: ink black, paper white, Klein blue
+     ============================================ */
+:root {
+  --ink: #0b0b0c;
+  --paper: #f6f5f1;
+  --klein: #1b1be6;
+  --ink-soft: #5a5a58;
+  --paper-soft: #c9c9c2;
+  --klein-soft: #6a6af0;
+  --dur: 0.6s;
+  --ease: cubic-bezier(0.16, 0.8, 0.24, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Source Serif 4", Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--klein);
+  color: var(--paper);
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--klein);
+  outline-offset: 4px;
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8vw;
+}
+
+/* faint paper grain, kept subtle on purpose */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  z-index: 5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+     SIDE NAV — vertical dots with labels
+     ============================================ */
+.side-nav {
+  position: fixed;
+  right: 3vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: flex-end;
+}
+.side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.3s var(--ease);
+}
+.side-nav .label {
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease);
+  white-space: nowrap;
+}
+.side-nav a:hover .label,
+.side-nav a:focus-visible .label {
+  opacity: 1;
+  transform: translateX(0);
+}
+.side-nav .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--paper-soft);
+  transition:
+    background 0.3s var(--ease),
+    transform 0.3s var(--ease);
+  flex-shrink: 0;
+}
+.side-nav a.active .dot {
+  background: var(--klein);
+  transform: scale(1.4);
+}
+.side-nav a.active {
+  color: var(--ink);
+}
+
+/* section on dark backgrounds needs light dots — handled via body attr */
+body[data-zone="dark"] .side-nav a {
+  color: var(--paper-soft);
+}
+body[data-zone="dark"] .side-nav a.active {
+  color: var(--paper);
+}
+body[data-zone="dark"] .side-nav .dot {
+  background: #4a4a55;
+}
+
+/* fixed monogram */
+.mono {
+  position: fixed;
+  top: 3vw;
+  left: 8vw;
+  z-index: 20;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================
+     REVEAL animation on scroll — minimal, one-shot
+     ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+     HERO
+     ============================================ */
+#hero {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: center;
+  gap: 6vw;
+}
+.hero-photo {
+  aspect-ratio: 4/5;
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--ink);
+  background: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 10px,
+    rgba(11, 11, 12, 0.045) 10px,
+    rgba(11, 11, 12, 0.045) 11px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+.hero-photo img {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-align: center;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+/* To use a real photo: replace the .hero-photo div's contents with
+     <img src="your-photo.jpg" alt="Your Name" style="width:100%;height:100%;object-fit:cover;"> */
+
+.rolesInner {
+ display: flex;
+  flex-direction: column;
+
+  /* sliding animation */
+  animation: roleSlide 8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation-delay: 3s;
+  font-size: 40px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+}
+
+.roles {
+  height: 43px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.hero-text .eyebrow {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--klein);
+  margin-bottom: 18px;
+  display: inline-block;
+}
+.hero-text h1 {
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+.hero-text p {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-style: italic;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  line-height: 1.55;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+.scroll-cue {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  animation: fadeIn 2s ease-in-out forwards;
+  animation-delay: 3s;
+}
+/* ============================================
+     WORK — Klein blue field, image grid
+     ============================================ */
+#work {
+  background: var(--klein);
+  color: var(--paper);
+  justify-content: flex-start;
+  padding-top: 14vh;
+  padding-bottom: 8vh;
+}
+#work h2 {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+#work .section-sub {
+  font-family: "Source Serif 4", serif;
+  font-style: italic;
+  color: #d8d8fa;
+  max-width: 50ch;
+  margin-bottom: 6vh;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(246, 245, 241, 0.35);
+}
+.grid-item {
+  aspect-ratio: 1/1;
+  background: var(--klein);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.grid-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px dashed rgba(246, 245, 241, 0.35);
+  margin: 14px;
+  transition: opacity 0.35s var(--ease);
+}
+.grid-item:hover::before {
+  opacity: 0;
+}
+.grid-item .cap {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease);
+  position: relative;
+  z-index: 2;
+}
+.grid-item:hover .cap {
+  opacity: 1;
+  transform: translateY(0);
+}
+.grid-item:hover {
+  background: #1616c9;
+}
+/* To use a real image: give .grid-item a background-image, e.g.
+     style="background-image:url('work-01.jpg');background-size:cover;background-position:center;" */
+
+/* ============================================
+     ABOUT
+     ============================================ */
+#about {
+  align-items: center;
+}
+#about .about-inner {
+  max-width: 640px;
+}
+#about .eyebrow {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--klein);
+  margin-bottom: 22px;
+  display: inline-block;
+}
+#about .lede {
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-style: italic;
+  line-height: 1.45;
+  margin-bottom: 28px;
+}
+#about p.body-copy {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  margin-bottom: 36px;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tags span {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  padding: 8px 14px;
+}
+
+/* ============================================
+     CONTACT
+     ============================================ */
+#contact {
+  background: var(--ink);
+  color: var(--paper);
+  align-items: flex-start;
+}
+#contact .eyebrow {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--klein-soft);
+  margin-bottom: 18px;
+}
+#contact h2 {
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.email-link {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  border-bottom: 1px solid var(--paper-soft);
+  padding-bottom: 6px;
+  display: inline-block;
+  transition:
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+  width: fit-content;
+}
+.email-link:hover {
+  border-color: var(--klein-soft);
+  color: var(--klein-soft);
+}
+.socials {
+  display: flex;
+  gap: 28px;
+  margin-top: 48px;
+}
+.socials a {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+  transition: color 0.3s var(--ease);
+}
+
+.socials a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  background: var(--paper);
+  transition: width 0.7s var(--ease);
+}
+.socials a:hover::after {
+  width: 100%;
+}
+.foot-note {
+  position: absolute;
+  bottom: 6vh;
+  left: 8vw;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+/* ============================================
+     ANIMATIONS
+     ============================================ */
+@keyframes roleSlide {
+  0%,
+  15% {
+    transform: translateY(0);
+  }
+
+  20%,
+  35% {
+    transform: translateY(-50px);
+  }
+  40%,
+  55% {
+    transform: translateY(-100px);
+  }
+  60%,
+  75% {
+    transform: translateY(-155px);
+  }
+  80%,
+  95% {
+    transform: translateY(-205px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+
+
+/* ============================================
+     RESPONSIVE
+     ============================================ */
+@media (max-width: 860px) {
+  section {
+    padding: 14vh 7vw 8vh;
+    min-height: 100vh;
+  }
+  #hero {
+    grid-template-columns: 1fr;
+    gap: 6vh;
+  }
+  .hero-photo {
+    max-width: 280px;
+  }
+  #about .about-inner {
+    max-width: 100%;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .side-nav {
+    right: 5vw;
+    gap: 18px;
+  }
+  .side-nav .label {
+    display: none;
+  }
+  .mono {
+    top: 5vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
