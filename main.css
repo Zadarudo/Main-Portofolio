@@ -276,12 +276,12 @@ body[data-zone="dark"] .side-nav .dot {
   opacity: 0;                              /* ← add this line */
   animation: fadeIn 2s ease-in-out forwards;
   animation-delay: 3s;
-}z
+}
 /* ============================================
      WORK — Klein blue field, image grid
      ============================================ */
 #work {
-  background: var(--klein);
+  background: var(--ink);
   color: var(--paper);
   justify-content: flex-start;
   padding-top: 14vh;
@@ -304,23 +304,31 @@ body[data-zone="dark"] .side-nav .dot {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
-  background: rgba(246, 245, 241, 0.35);
+  /* background: rgba(246, 245, 241, 0.35); */
+  /* transition: transform 2.3s var(--ease); */
+  
 }
 .grid-item {
   aspect-ratio: 1/1;
-  background: var(--klein);
+  background: var(--ink);
   display: flex;
   align-items: flex-end;
   padding: 18px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  transition: transform 1.8s var(--ease);
 }
+
+.grid-item:hover {
+  transform: translateY(-10px);
+}
+
 .grid-item::before {
   content: "";
   position: absolute;
   inset: 0;
-  border: 1px dashed rgba(246, 245, 241, 0.35);
+  /* border: 1px dashed rgba(246, 245, 241, 0.35); */
   margin: 14px;
   transition: opacity 0.35s var(--ease);
 }
@@ -346,7 +354,49 @@ body[data-zone="dark"] .side-nav .dot {
   transform: translateY(0);
 }
 .grid-item:hover {
-  background: #1616c9;
+  background-color: #1616c9;
+}
+
+/* tiles with a real project image */
+.grid-item.has-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.grid-item.has-image::before {
+  border-color: rgba(246, 245, 241, 0.55);
+}
+.grid-item.has-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 11, 12, 0) 45%,
+    rgba(11, 11, 12, 0.8) 100%
+  );
+  opacity: 0.75;
+  transition: opacity 0.35s var(--ease);
+}
+.grid-item.has-image:hover::after {
+  opacity: 0.55;
+}
+
+#grid-rectangle {
+  grid-row: 1;
+  grid-column: 2 / 4;
+  aspect-ratio: auto;
+}
+
+#grid-rectangle-2 {
+  grid-row: 2;
+  grid-column: 1 / 3;
+  aspect-ratio: auto;
+}
+
+#grid-rectangle-3 {
+  grid-row: 3;
+  grid-column: 2 / 4;
+  aspect-ratio: auto;
 }
 /* To use a real image: give .grid-item a background-image, e.g.
      style="background-image:url('work-01.jpg');background-size:cover;background-position:center;" */
@@ -519,6 +569,15 @@ body[data-zone="dark"] .side-nav .dot {
     transform: translateX(0px);
   }
 }
+
+ @keyframes hoverSlide {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+ }
 
 
 

@@ -1,96 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Name — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
 </head>
+
 <body data-zone="light">
 
-<div class="grain"></div>
+  <div class="grain"></div>
 
-<a href="#hero" class="mono">YN</a>
+  <a href="#hero" class="mono">RM</a>
 
-<nav class="side-nav" aria-label="Section navigation">
-  <a href="#hero" class="active" data-zone="light"><span class="dot"></span><span class="label">Home</span></a>
-  <a href="#work" data-zone="dark"><span class="dot"></span><span class="label">Work</span></a>
-  <a href="#about" data-zone="light"><span class="dot"></span><span class="label">About</span></a>
-  <a href="#contact" data-zone="dark"><span class="dot"></span><span class="label">Contact</span></a>
-</nav>
+  <nav class="side-nav" aria-label="Section navigation">
+    <a href="#hero" class="active" data-zone="light"><span class="dot"></span><span class="label"></span>Home</span></a>
+    <a href="#work" data-zone="dark"><span class="dot"></span><span class="label">Work</span></a>
+    <a href="#experiences" data-zone="light"><span class="dot"></span><span class="label">Expe</span></a>
+    <a href="#about" data-zone="light"><span class="dot"></span><span class="label">About</span></a>
+    <a href="#contact" data-zone="dark"><span class="dot"></span><span class="label">Contact</span></a>
+  </nav>
 
-<!-- ============ HERO ============ -->
-<section id="hero">
-  <div class="hero-photo" role="img" aria-label="Portrait photo placeholder">
-   <img src='images/profilePic3.jpg'>
-  </div>
-  <div class="heroBio">
-    <div class="roles">
-      <div class="rolesInner">
-        <span class="role" style="color: rgb(39, 128, 142);">Developer</span>
-        <span class="role" style="color: red;">Athlete</span>
-        <span class="role" style="color: rgb(71, 188, 78);">Learner</span>
-        <span class="role" style="color: orange;">Enthusiast</span>
-        <span class="role" style="color: rgb(57, 130, 219);">Passionate</span>
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="hero-photo" role="img" aria-label="Portrait photo placeholder">
+      <img src='images/profilePic3.jpg'>
+    </div>
+    <div class="heroBio">
+      <div class="roles">
+        <div class="rolesInner">
+          <span class="role" style="color: rgb(39, 128, 142);">Developer</span>
+          <span class="role" style="color: red;">Athlete</span>
+          <span class="role" style="color: rgb(71, 188, 78);">Learner</span>
+          <span class="role" style="color: orange;">Enthusiast</span>
+          <span class="role" style="color: rgb(57, 130, 219);">Passionate</span>
+        </div>
+      </div>
+      <div class="hero-text">
+        <h1>Balakoswa Raja M</h1>
+        <p>Passionate developer and athlete with a love for learning and creating impactful solutions.</p>
+        <div class="scroll-cue">Scroll to explore</div>
       </div>
     </div>
-    <div class="hero-text">
-      <h1>Balakoswa Raja M</h1>
-      <p>Passionate developer and athlete with a love for learning and creating impactful solutions.</p>
-      <div class="scroll-cue">Scroll to explore</div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section id="work">
+    <h2 class="reveal">Featured Works</h2>
+    <p class="section-sub reveal">A handful recent projects of mine, each with its own unique story, click to see its
+      Github.</p>
+    <div class="grid reveal">
+      <a href="https://github.com/Zadarudo/schedule-generator" target="_blank" class="grid-item has-image"
+        style="background-image:url('images/scheduler.png');background-position:center;"><span class="cap">Scheduler
+          App</span></a>
+      <a href="https://github.com/Zadarudo/ThunderNews" target="_blank" id="grid-rectangle" class="grid-item has-image"
+        style="background-image:url('images/thundernews-app.png');background-position:right center;"><span
+          class="cap">ThunderNews App</span></a>
+      <a href="https://github.com/Zadarudo/Appsence" target="_blank" id="grid-rectangle-2" class="grid-item has-image"
+        style="background-image: url('images/appsence.png');background-position: right center;"><span
+          class="cap">Appsence</span></a>
+      <a href="https://github.com/Zadarudo/Project-Four" target="_blank" class="grid-item has-image"
+        style="background-image: url('images/project-four.png');background-position: right center;"><span
+          class="cap">Project Four</span></a>
+      <a href="https://github.com/Zadarudo/Project-Five" target="_blank" class="grid-item has-image"
+        style="background-image: url('images/project-five.png');background-position: right center;"><span
+          class="cap">Project Five</span></a>
+      <a href="https://zadarudo.github.io/Bakery-Website/" target="_blank" id="grid-rectangle-3"
+        class="grid-item has-image"
+        style="background-image: url('images/imbi.png');background-position: right center;"><span class="cap">Landing
+          Page</span></a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ WORK ============ -->
-<section id="work">
-  <h2 class="reveal">Selected Work</h2>
-  <p class="section-sub reveal">A handful of recent projects. Swap each tile's background for a real image when you're ready.</p>
-  <div class="grid reveal">
-    <div class="grid-item"><span class="cap">Project One</span></div>
-    <div class="grid-item"><span class="cap">Project Two</span></div>
-    <div class="grid-item"><span class="cap">Project Three</span></div>
-    <div class="grid-item"><span class="cap">Project Four</span></div>
-    <div class="grid-item"><span class="cap">Project Five</span></div>
-    <div class="grid-item"><span class="cap">Project Six</span></div>
-  </div>
-</section>
+  <!--- Experiences -->
+  <section id="experiences">
 
-<!-- ============ ABOUT ============ -->
-<section id="about">
-  <div class="about-inner">
-    <span class="eyebrow reveal">About</span>
-    <p class="lede reveal">A couple of sentences on your approach — what you care about when you're making something.</p>
-    <p class="body-copy reveal">Expand here with your background: where you trained or taught yourself, what kind of work you gravitate toward, and what you're looking for next. Keep it to a short paragraph or two — this section should read quickly.</p>
-    <div class="tags reveal">
-      <span>Skill One</span>
-      <span>Skill Two</span>
-      <span>Skill Three</span>
-      <span>Skill Four</span>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="about-inner">
+      <span class="eyebrow reveal">About</span>
+      <p class="lede reveal">A couple
+      </p>
+      <p class="body-copy reveal">Expand here with your background: where you trained or taught yourself, what kind of
+        work you gravitate toward, and what you're looking for next. Keep it to a short paragraph or two — this section
+        should read quickly.</p>
+      <div class="tags reveal">
+        <span>React</span>
+        <span>Git</span>
+        <span>Javascript</span>
+        <span>Tailwind CSS</span>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ CONTACT ============ -->
-<section id="contact">
-  <span class="eyebrow reveal">Get in touch</span>
-  <h2 class="reveal">Let's talk.</h2>
-  <a class="email-link reveal" href="https://mail.google.com/mail/?view=cm&fs=1&to=rajabalakoswa@gmail.com">
-    Email Me
-  </a>
-  <div class="socials reveal">
-    <a href="#">Instagram</a>
-    <a href="https://www.linkedin.com/in/balakoswa-raja-68a78a37a/">LinkedIn</a>
-    <a href="#">Twitter</a>
-    <a href="https://github.com/Zadarudo">Github</a>    
-  </div>
-  <span class="foot-note">© 2026 Balakoswa Raja M.</span>
-</section>
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <span class="eyebrow reveal">Get in touch</span>
+    <h2 class="reveal">Let's talk.</h2>
+    <a class="email-link reveal" href="https://mail.google.com/mail/?view=cm&fs=1&to=rajabalakoswa@gmail.com">
+      Email Me
+    </a>
+    <div class="socials reveal">
+      <a href="#">Instagram</a>
+      <a href="https://www.linkedin.com/in/balakoswa-raja-68a78a37a/">LinkedIn</a>
+      <a href="#">Twitter</a>
+      <a href="https://github.com/Zadarudo">Github</a>
+    </div>
+    <span class="foot-note">© 2026 Balakoswa Raja M.</span>
+  </section>
 
-<script src="main.js"></script>
+  <script src="main.js"></script>
 
 </body>
+
 </html>
