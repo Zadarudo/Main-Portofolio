@@ -217,7 +217,7 @@ body[data-zone="dark"] .side-nav .dot {
      <img src="your-photo.jpg" alt="Your Name" style="width:100%;height:100%;object-fit:cover;"> */
 
 .rolesInner {
- display: flex;
+  display: flex;
   flex-direction: column;
 
   /* sliding animation */
@@ -273,7 +273,7 @@ body[data-zone="dark"] .side-nav .dot {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  opacity: 0;                              /* ← add this line */
+  opacity: 0; /* ← add this line */
   animation: fadeIn 2s ease-in-out forwards;
   animation-delay: 3s;
 }
@@ -306,7 +306,6 @@ body[data-zone="dark"] .side-nav .dot {
   gap: 2px;
   /* background: rgba(246, 245, 241, 0.35); */
   /* transition: transform 2.3s var(--ease); */
-  
 }
 .grid-item {
   aspect-ratio: 1/1;
@@ -445,6 +444,77 @@ body[data-zone="dark"] .side-nav .dot {
   padding: 8px 14px;
 }
 
+/* ---------- Skill tags (no layout changes on hover) ---------- */
+.tags span {
+  cursor: default;
+  transition: transform 0.4s var(--ease), color 0.3s var(--ease),
+              border-color 0.3s var(--ease);
+}
+.tags span:hover,
+.tags span:focus-visible {
+  transform: translateY(-3px);
+  color: var(--klein);
+  border-color: var(--klein);
+}
+
+/* ---------- Icon slider (background layer) ---------- */
+#about .about-inner { position: relative; z-index: 1; }
+
+#about {
+  justify-content: flex-start;
+  padding-top: 14vh;
+  padding-bottom: 0;
+}
+
+.skill-slider {
+  --slot: clamp(150px, 24vh, 280px);   /* sized from viewport height now */
+  position: relative;                  /* in the flow, no longer absolute */
+  flex: 1;                             /* takes all space under the tags */
+  min-height: 240px;
+  align-self: stretch;
+  margin-inline: -8vw;                 /* escape the section padding: full width */
+  overflow: hidden;
+  pointer-events: none;      
+               }               /* no interaction, just visual */
+
+.skill-track {
+  --i: 1;                               /* index of centered slide, set by JS */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  transform: translate(calc(var(--slot) * (-0.5 - var(--i))), -50%);
+  transition: transform 1s var(--ease);
+}
+
+.skill-slide {
+  flex: none;
+  width: var(--slot);
+  height: var(--slot);
+  display: grid;
+  place-items: center;
+  /* defaults = far away */
+  --s: 0.45;
+  --o: 0.04;
+  transform: scale(var(--s));
+  opacity: var(--o);
+  filter: grayscale(1);
+  transition: transform 1s var(--ease), opacity 1s ease, filter 1s ease;
+}
+.skill-slide img { width: 62%; height: 62%; }
+
+/* d = distance from the centered slide */
+.skill-slide[data-d="0"] { --s: 1;    --o: 0.28; filter: grayscale(0); }
+.skill-slide[data-d="1"] { --s: 0.62; --o: 0.1; }
+
+@media (max-width: 860px) {
+  #about { padding-top: 12vh; }
+  .skill-slider {
+    --slot: 55vw;
+    margin-inline: -7vw;
+  }
+}
+
 /* ============================================
      CONTACT
      ============================================ */
@@ -518,6 +588,305 @@ body[data-zone="dark"] .side-nav .dot {
   text-transform: uppercase;
 }
 /* ============================================
+     EXPERIENCES / SERVICES — split hover panels
+     ============================================ */
+#experiences {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.half {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  outline-offset: -4px;
+}
+.half + .half {
+  border-left: 1px solid var(--ink);
+}
+
+.half-title {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  transition:
+    color 0.4s var(--ease),
+    transform 0.6s var(--ease);
+}
+.half:hover .half-title {
+  color: var(--klein);
+  transform: translateY(-8px);
+}
+.half-hint {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* the sliding layer */
+.panel {
+  position: absolute;
+  inset: 0;
+  transform: translateY(100%);
+  visibility: hidden;
+  /* visibility waits until the slide-out finishes */
+  transition:
+    transform 0.7s var(--ease),
+    visibility 0s 0.7s;
+  z-index: 2;
+}
+.half:hover .panel,
+.half:focus-within .panel,
+.half.open .panel {
+  transform: translateY(0);
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* ---------- Experiences panel ---------- */
+.panel-exp {
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10vh 0;
+}
+.exp-card {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px 4vw;
+  color: var(--paper);
+  /* staggered entrance */
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+.half:hover .exp-card,
+.half:focus-within .exp-card,
+.half.open .exp-card {
+  opacity: 1;
+  transform: none;
+}
+.exp-card:nth-child(1) {
+  transition-delay: 0.2s;
+}
+.exp-card:nth-child(2) {
+  transition-delay: 0.3s;
+}
+.exp-card:nth-child(3) {
+  transition-delay: 0.4s;
+}
+
+/* background image lives on ::before so it can zoom without moving the text */
+.exp-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 11, 12, 0.1) 20%, rgba(11, 11, 12, 0.85)),
+    var(--img, linear-gradient(135deg, #1b1be6, #0b0b0c));
+  background-size: cover;
+  background-position: center;
+  transition: transform 1s var(--ease);
+  z-index: 0;
+}
+.exp-card:hover::before {
+  transform: scale(1.08);
+}
+.exp-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.exp-year {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+}
+.exp-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  margin: 6px 0 4px;
+  transition: transform 0.5s var(--ease);
+}
+.exp-role {
+  font-style: italic;
+  color: var(--paper-soft);
+  transition: transform 0.5s var(--ease) 0.05s;
+}
+.exp-card:hover .exp-name,
+.exp-card:hover .exp-role {
+  transform: translateX(14px);
+}
+
+.exp-arrow {
+  position: absolute !important;
+  top: 20px;
+  right: 4vw;
+  font-size: 1.6rem;
+  opacity: 0;
+  transform: translate(-8px, 8px);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+.exp-card:hover .exp-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Services panel ---------- */
+.panel-srv {
+  background: var(--klein);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  padding: 0 4vw;
+}
+.srv-list {
+  list-style: none;
+  width: 100%;
+}
+.srv-list li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: 12px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(246, 245, 241, 0.3);
+  position: relative;
+  opacity: 0;
+  transform: translateX(30px);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease),
+    padding-left 0.4s var(--ease);
+}
+.half:hover .srv-list li,
+.half:focus-within .srv-list li,
+.half.open .srv-list li {
+  opacity: 1;
+  transform: none;
+}
+.srv-list li:nth-child(1) {
+  transition-delay: 0.2s, 0.2s, 0s;
+}
+.srv-list li:nth-child(2) {
+  transition-delay: 0.28s, 0.28s, 0s;
+}
+.srv-list li:nth-child(3) {
+  transition-delay: 0.36s, 0.36s, 0s;
+}
+.srv-list li:nth-child(4) {
+  transition-delay: 0.44s, 0.44s, 0s;
+}
+
+.srv-list li::after {
+  /* underline that draws in on hover */
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0;
+  background: var(--paper);
+  transition: width 0.6s var(--ease);
+}
+.srv-list li:hover::after {
+  width: 100%;
+}
+.srv-list li:hover {
+  padding-left: 14px;
+}
+
+.srv-num {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding-top: 0.5em;
+  color: #d8d8fa;
+}
+.srv-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  font-weight: 700;
+}
+.srv-desc {
+  grid-column: 2;
+  margin-top: 6px;
+  color: #d8d8fa;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.number {
+  font-family: "Space Grotesk", sans-serif;
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 100;
+}
+
+/* ---------- Mobile: no hover, so tap to expand in place ---------- */
+@media (max-width: 860px) {
+  #experiences {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+  .half {
+    min-height: 50vh;
+    justify-content: flex-start;
+    padding-top: 14vh;
+  }
+  .half + .half {
+    border-left: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .panel {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    transform: none;
+    max-height: 0;
+    transition:
+      max-height 0.7s var(--ease),
+      visibility 0s 0.7s;
+  }
+  .half:hover .panel,
+  .half:focus-within .panel,
+  .half.open .panel {
+    max-height: 120vh;
+  }
+  .panel-exp {
+    padding: 0;
+    margin-top: 4vh;
+  }
+  .exp-card {
+    min-height: 160px;
+  }
+  .panel-srv {
+    padding: 0 7vw;
+  }
+}
+
+/* ============================================
      ANIMATIONS
      ============================================ */
 @keyframes roleSlide {
@@ -570,16 +939,14 @@ body[data-zone="dark"] .side-nav .dot {
   }
 }
 
- @keyframes hoverSlide {
+@keyframes hoverSlide {
   from {
     transform: translateY(0);
   }
   to {
     transform: translateY(-10px);
   }
- }
-
-
+}
 
 /* ============================================
      RESPONSIVE
